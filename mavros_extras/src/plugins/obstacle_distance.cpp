@@ -74,19 +74,24 @@ private:
 		} else {
 			// all distances from sensor will not fit so we combine adjacent distances always taking the shortest distance
 			size_t scale_factor = ceil(double(req->ranges.size()) / obstacle.distances.size());
+			ROS_INFO("ranges.size: %f, obstacle.distances.size: %f, scale_factor: %f", req->ranges.size(), obstacle.distances.size(),);
 			for (size_t i = 0; i < obstacle.distances.size(); i++) {
 				obstacle.distances[i] = UINT16_MAX;
 				for (size_t j = 0; j < scale_factor; j++) {
 					size_t req_index = i * scale_factor + j;
 					if (req_index < req->ranges.size()) {
-						uint16_t dist_cm = req->ranges[req_index] * 1e2;
-						obstacle.distances[i] = std::min(obstacle.distances[i], dist_cm);
+						const float dist_m = req->ranges[req_index];
+						if (!std::isnan(dist_m)) {
+							obstacle.distances[i] = std::min(obstacle.distances[i], (uint16_t)(dist_m * 1e2));
+						}
 					}
 				}
 			}
 			obstacle.increment = ceil(req->angle_increment * RAD_TO_DEG * scale_factor);   //!< [degrees]
 		}
 
+		std::reverse(std::begin(obstacle.distances), std::end(obstacle.distances));
+		
 		obstacle.time_usec = req->header.stamp.toNSec() / 1000;					//!< [microsecs]
 		obstacle.sensor_type = utils::enum_value(MAV_DISTANCE_SENSOR::LASER);	//!< defaults is laser type (depth sensor, Lidar)
 		obstacle.min_distance = req->range_min * 1e2;							//!< [centimeters]
