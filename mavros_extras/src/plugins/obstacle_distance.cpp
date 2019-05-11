@@ -70,7 +70,7 @@ private:
 			auto cm_ranges = Eigen::Map<const Eigen::VectorXf>(req->ranges.data(), req->ranges.size()) * 1e2;
 			map_distances = cm_ranges.cast<uint16_t>();							//!< [centimeters]
 			std::fill(obstacle.distances.begin() + req->ranges.size(), obstacle.distances.end(), UINT16_MAX);    //!< fill the rest of the array values as "Unknown"
-			obstacle.increment = req->angle_increment * RAD_TO_DEG;				//!< [degrees]
+			obstacle.increment_f = req->angle_increment * RAD_TO_DEG;				//!< [degrees]
 		} else {
 			// all distances from sensor will not fit so we combine adjacent distances always taking the shortest distance
 			size_t scale_factor = ceil(double(req->ranges.size()) / obstacle.distances.size());
@@ -87,7 +87,7 @@ private:
 					}
 				}
 			}
-			obstacle.increment = ceil(req->angle_increment * RAD_TO_DEG * scale_factor);   //!< [degrees]
+			obstacle.increment_f = req->angle_increment * RAD_TO_DEG * scale_factor;   //!< [degrees]
 		}
 
 		std::reverse(std::begin(obstacle.distances), std::end(obstacle.distances));
