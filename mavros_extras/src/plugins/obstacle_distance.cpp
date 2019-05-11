@@ -88,7 +88,7 @@ private:
 				}
 			}
 			obstacle.increment_f = req->angle_increment * RAD_TO_DEG * scale_factor;   //!< [degrees]
-			obstacle.angle_offsets = req->angle_min * RAD_TO_DEG;
+			obstacle.angle_offset = req->angle_min * RAD_TO_DEG;
 		}
 
 		std::reverse(std::begin(obstacle.distances), std::end(obstacle.distances));
