@@ -74,7 +74,7 @@ private:
 		} else {
 			// all distances from sensor will not fit so we combine adjacent distances always taking the shortest distance
 			size_t scale_factor = ceil(double(req->ranges.size()) / obstacle.distances.size());
-			ROS_INFO("ranges.size: %lu, obstacle.distances.size: %lu, scale_factor: %lu", req->ranges.size(), obstacle.distances.size(), scale_factor);
+			//ROS_INFO("ranges.size: %lu, obstacle.distances.size: %lu, scale_factor: %lu", req->ranges.size(), obstacle.distances.size(), scale_factor);
 			for (size_t i = 0; i < obstacle.distances.size(); i++) {
 				obstacle.distances[i] = UINT16_MAX;
 				for (size_t j = 0; j < scale_factor; j++) {
