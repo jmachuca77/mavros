@@ -96,8 +96,7 @@ public:
 			       make_handler(&IMUPlugin::handle_attitude),
 			       make_handler(&IMUPlugin::handle_attitude_quaternion),
 			       make_handler(&IMUPlugin::handle_highres_imu),
-			       make_handler(&IMUPlugin::handle_raw_imu),
-			       make_handler(&IMUPlugin::handle_scaled_imu),
+			       make_handler(&IMUPlugin::handle_scaled_imu3),
 			       make_handler(&IMUPlugin::handle_scaled_pressure),
 		};
 	}
